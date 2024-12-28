@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Registration - Self Check-In System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <style>
+        .error-message {
+            color: #e74c3c;
+            background-color: #fde8e7;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .success-message {
+            color: #27ae60;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .loading-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Host Registration</h1>
+            <div id="messageContainer"></div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required 
+                           minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="password-requirements">
+                    Password must contain:
+                    <ul>
+                        <li>At least 6 characters</li>
+                        <li>One uppercase letter</li>
+                        <li>One lowercase letter</li>
+                        <li>One number</li>
+                    </ul>
+                </div>
+                <button type="submit" class="primary-btn">
+                    <span>Register</span>
+                    <div class="loading-spinner" style="display: none;"></div>
+                </button>
+            </form>
+            <p class="register-link">
+                Already have an account? <a href="login.html">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="debug" style="display: none; position: fixed; bottom: 0; left: 0; background: #f8f9fa; padding: 10px; font-family: monospace;"></div>
+
+    <script>
+        function debug(msg) {
+            console.log(msg);
+            const debugDiv = document.getElementById('debug');
+            debugDiv.style.display = 'block';
+            debugDiv.innerHTML += `<div>${JSON.stringify(msg)}</div>`;
+        }
+    </script>
+    
+    <script src="js/supabase.js"></script>
+    <script src="js/register.js"></script>
+</body>
+</html> 

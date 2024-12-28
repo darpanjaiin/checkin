@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Dashboard - Self Check-In System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">Self Check-In System</div>
+        <div class="nav-menu">
+            <span id="userEmail"></span>
+            <button id="profileBtn" class="nav-btn">Profile</button>
+            <button id="logoutBtn" class="nav-btn">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Host Dashboard</h1>
+            <div class="filter-controls">
+                <select id="statusFilter">
+                    <option value="all">All Check-ins</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+                <input type="date" id="dateFilter">
+                <button id="refreshBtn" class="refresh-btn">Refresh</button>
+            </div>
+        </div>
+
+        <div id="messageContainer"></div>
+        <div id="loadingSpinner" class="loading-spinner"></div>
+
+        <div class="check-ins-container">
+            <div id="checkInsList"></div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Profile Settings</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" readonly>
+                </div>
+                <button type="submit" class="primary-btn">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Check-in Details Modal -->
+    <div id="checkInModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Check-in Details</h2>
+            <div id="checkInDetails"></div>
+            <div class="action-buttons">
+                <button id="approveBtn" class="success-btn">Approve</button>
+                <button id="rejectBtn" class="danger-btn">Reject</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/supabase.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html> 

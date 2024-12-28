@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Confirmation - Self Check-In System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <style>
+        .message-container {
+            text-align: center;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+        }
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .error {
+            background-color: #fde8e7;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1>Email Confirmation</h1>
+            <div id="messageContainer" class="message-container"></div>
+            <div id="redirectMessage" style="text-align: center; margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <script src="js/supabase.js"></script>
+    <script>
+        async function handleEmailConfirmation() {
+            const messageContainer = document.getElementById('messageContainer');
+            const redirectMessage = document.getElementById('redirectMessage');
+
+            try {
+                const fragment = window.location.hash;
+                if (!fragment) {
+                    throw new Error('No confirmation token found');
+                }
+
+                const params = new URLSearchParams(fragment.substring(1));
+                const accessToken = params.get('access_token');
+                const refreshToken = params.get('refresh_token');
+                const type = params.get('type');
+
+                if (!accessToken) {
+                    throw new Error('Invalid confirmation link');
+                }
+
+                // Set the session with the tokens
+                const { data, error } = await supabase.auth.setSession({
+                    access_token: accessToken,
+                    refresh_token: refreshToken
+                });
+
+                if (error) throw error;
+
+                // Get the user
+                const { data: { user }, error: userError } = await supabase.auth.getUser();
+                
+                if (userError) throw userError;
+
+                messageContainer.className = 'message-container success';
+                messageContainer.textContent = `Welcome ${user.user_metadata.full_name}! Your email has been confirmed successfully.`;
+                
+                redirectMessage.textContent = 'Redirecting to login page in 3 seconds...';
+                
+                // Redirect to login page after successful confirmation
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+
+            } catch (error) {
+                console.error('Confirmation error:', error);
+                messageContainer.className = 'message-container error';
+                messageContainer.textContent = 'Email confirmation failed: ' + (error.message || 'Please try again');
+                redirectMessage.innerHTML = '<a href="login.html">Click here to go to login page</a>';
+            }
+        }
+
+        // Run the confirmation handler when the page loads
+        document.addEventListener('DOMContentLoaded', handleEmailConfirmation);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Profile - Self Check-In System</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link rel="stylesheet" href="styles/profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>Host Profile</h1>
+                <nav class="nav-links">
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="profile.html" class="active">Profile</a>
+                    <button id="logoutBtn" class="secondary-btn">Logout</button>
+                </nav>
+            </div>
+        </header>
+
+        <main class="profile-main">
+            <div class="profile-container">
+                <section class="profile-section">
+                    <h2>Profile Information</h2>
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required readonly>
+                        </div>
+                        <button type="submit" class="primary-btn">Update Profile</button>
+                    </form>
+                </section>
+
+                <section class="profile-section">
+                    <h2>Change Password</h2>
+                    <form id="passwordForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" name="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" name="newPassword" required
+                                   minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Confirm New Password</label>
+                            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+                        </div>
+                        <button type="submit" class="primary-btn">Change Password</button>
+                    </form>
+                </section>
+
+                <section class="profile-section danger-zone">
+                    <h2>Danger Zone</h2>
+                    <div class="danger-actions">
+                        <button id="deleteAccountBtn" class="danger-btn">Delete Account</button>
+                        <p class="warning-text">This action cannot be undone. All your data will be permanently deleted.</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/profile.js"></script>
+</body>
+</html> 
